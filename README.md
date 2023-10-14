@@ -1,14 +1,5 @@
-Use minvect for the types
-Probs gonna have to make minmat for calculating the projection matrix hehe. use ortho etc for camera shit
-
-the only thing im tossing up is whether to represent mat4 as a &[f32; 16] or as a [Vec4; 4] - column vectors
-Column vectors is the based way of understanding.
-for consumption to opengl probs want it as f32s...
-
-matrix for fixed 2d cam
-matrix for moving 2d cam
-matrix for 3d cam - thats what i did in okbloomer
+# Glowmesh
+This is a thin mesh abstraction for glow. Its very ooga booga style: simply implemented per common vertex type. For now XYZRGBA. The _build2d module is for 2d rendering, providing functionality for triangle, quad and polygon rendering (more to come like lines etc).
 
 
-
-i guess u want some struct implement shit as event handler or w/e
+examples/triangle should be a good starting point for OpenGL application development. Except rn the triangle isnt drawing, stay tuned...

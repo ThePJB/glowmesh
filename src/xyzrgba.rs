@@ -1,6 +1,8 @@
 use glow::HasContext;
 use minvect::*;
 
+#[derive(Debug)]
+#[repr(C, packed)]
 pub struct XYZRGBA {
     pub xyz: Vec3,
     pub rgba: Vec4,
@@ -55,22 +57,21 @@ impl ProgramXYZRGBA {
 }
 
 pub unsafe fn upload_xyzrgba_mesh(mesh: &[XYZRGBA], gl: &glow::Context) -> HandleXYZRGBA {
-    let vao = gl.create_vertex_array().unwrap();
     let vbo = gl.create_buffer().unwrap();
+    gl.bind_buffer(glow::ARRAY_BUFFER, Some(vbo));
+    let vao = gl.create_vertex_array().unwrap();
+    gl.bind_vertex_array(Some(vao));
     let vert_size = std::mem::size_of::<XYZRGBA>();
 
-    let vert_bytes: &[u8] = std::slice::from_raw_parts(
-        mesh.as_ptr() as *const u8,
-        mesh.len() * vert_size,
-    );
-
-    gl.bind_buffer(glow::ARRAY_BUFFER, Some(vbo));
-    gl.bind_vertex_array(Some(vao));
     gl.vertex_attrib_pointer_f32(0, 3, glow::FLOAT, false, vert_size as i32, 0);
     gl.enable_vertex_attrib_array(0);
     gl.vertex_attrib_pointer_f32(1, 4, glow::FLOAT, false, vert_size as i32, 3*4);
     gl.enable_vertex_attrib_array(1);
-
+    
+    let vert_bytes: &[u8] = std::slice::from_raw_parts(
+        mesh.as_ptr() as *const u8,
+        mesh.len() * vert_size,
+    );
     gl.buffer_data_u8_slice(glow::ARRAY_BUFFER, vert_bytes, glow::STATIC_DRAW);
     HandleXYZRGBA {vao, vbo, num_verts: mesh.len()}
 }
@@ -83,14 +84,11 @@ pub struct HandleXYZRGBA {
 
 impl HandleXYZRGBA {
     pub unsafe fn render(&self, gl: &glow::Context) {
-        dbg!("rendering", self.num_verts);
         gl.bind_vertex_array(Some(self.vao));
-        gl.bind_buffer(glow::ARRAY_BUFFER, Some(self.vbo));
         gl.draw_arrays(glow::TRIANGLES, 0, self.num_verts as i32);
     }
 }
 
-//#todo
 pub const DEFAULT_FS: &str = r#"#version 330 core
 in vec4 col;
 out vec4 frag_colour;

@@ -5,5 +5,6 @@ This is a thin mesh abstraction for glow. Its very ooga booga style: simply impl
 examples/triangle may serve as a starting point for OpenGL application development
 
 ## Todo
+* todo fix resizing on wayland if thats even possible lmao
 * todo recycling handles
 * todo rotozoom triangle with projection matrix... in accompanying matrix library xD

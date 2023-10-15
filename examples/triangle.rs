@@ -1,8 +1,8 @@
 use glow::HasContext;
 use minvect::*;
-extern crate glowmesh;
-use glowmesh::xyzrgba::*;
-use glowmesh::xyzrgba_build2d::*;
+extern crate glow_mesh;
+use glow_mesh::xyzrgba::*;
+use glow_mesh::xyzrgba_build2d::*;
 use glutin::event::{Event, WindowEvent};
 
 pub struct TriangleDemo {

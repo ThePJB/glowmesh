@@ -1,5 +1,5 @@
 [package]
-name = "glowmesh"
+name = "glow_mesh"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"

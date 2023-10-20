@@ -21,9 +21,19 @@ pub fn put_quad(buf: &mut Vec<XYZRGBA>, a: Vec2, b: Vec2, c: Vec2, d: Vec2, col:
     put_triangle(buf, a, c, d, col, depth);
 }
 
+pub fn put_line(buf: &mut Vec<XYZRGBA>, p1: Vec2, p2: Vec2, thickness: f32, col: Vec4, depth: f32) {
+    let v = (p2-p1).normalize();
+    let u = thickness*vec2(-v.y, v.x);
+    let a = p1 + u;
+    let b = p2 + u;
+    let c = p2 - u;
+    let d = p1 - u;
+    put_quad(buf, a, b, c, d, col, depth)
+}
+
 pub fn put_poly(buf: &mut Vec<XYZRGBA>, c: Vec2, r: f32, n: usize, phase: f32, col: Vec4, depth: f32) {
     let dtheta = (2.0 * PI) / n as f32;
-    for i in 1..n {
+    for i in 0..n {
         let theta = phase + dtheta * i as f32;
         let p1 = c + r*vec2(theta.cos(), theta.sin());
         let theta = theta - dtheta;

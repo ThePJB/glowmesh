@@ -2,7 +2,6 @@ use glow::HasContext;
 use minvect::*;
 extern crate glow_mesh;
 use glow_mesh::xyzrgba::*;
-use glow_mesh::xyzrgba_build2d::*;
 use glutin::event::{Event, WindowEvent};
 
 pub struct TriangleDemo {
@@ -66,6 +65,7 @@ impl TriangleDemo {
                         WindowEvent::Resized(size) => {
                             self.xres = size.width as i32;
                             self.yres = size.height as i32;
+                            self.window.resize(size);
                             self.gl.viewport(0, 0, size.width as i32, size.height as i32);
                         },
                         _ => {},

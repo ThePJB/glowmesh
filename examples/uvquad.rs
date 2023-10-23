@@ -1,7 +1,7 @@
 use glow::HasContext;
 use minvect::*;
 extern crate glow_mesh;
-use glow_mesh::xyzrgba::*;
+use glow_mesh::xyzrgbauv::*;
 use glutin::event::{Event, WindowEvent};
 
 pub struct TriangleDemo {
@@ -10,8 +10,8 @@ pub struct TriangleDemo {
     window: glutin::ContextWrapper<glutin::PossiblyCurrent, glutin::window::Window>,
     gl: glow::Context,
 
-    prog: ProgramXYZRGBA,
-    h: HandleXYZRGBA,
+    prog: ProgramXYZRGBAUV,
+    h: HandleXYZRGBAUV,
 }
 
 impl TriangleDemo {
@@ -21,7 +21,7 @@ impl TriangleDemo {
     
         unsafe {
             let window_builder = glutin::window::WindowBuilder::new()
-                .with_title("drawing test")
+                .with_title("triangle test")
                 .with_inner_size(glutin::dpi::PhysicalSize::new(xres, yres));
             let window = glutin::ContextBuilder::new()
                 .with_vsync(true)
@@ -32,15 +32,11 @@ impl TriangleDemo {
     
             let gl = glow::Context::from_loader_function(|s| window.get_proc_address(s) as *const _);
     
-            let prog = ProgramXYZRGBA::default(&gl);
+            let prog = ProgramXYZRGBAUV::default(&gl);
     
             let buf = &mut vec![];
-            put_triangle(buf, vec2(0.0, 1.0), vec2(1.0, 0.0), vec2(-1.0, 0.0), vec4(1.0, 0.0, 0.0, 1.0), -0.5);
-            put_quad(buf, vec2(-0.9, -0.9), vec2(-0.8, -0.9), vec2(-0.8, -0.8), vec2(-0.9, -0.8), vec4(0.0, 0.0, 1.0, 1.0), -0.6);
-            put_poly(buf, vec2(0.0, 0.0), 0.2, 5, 0.0, vec4(0.0, 1.0, 0.0, 1.0), -0.6);
-            put_poly(buf, vec2(0.5, 0.0), 0.1, 6, 0.0, vec4(0.0, 1.0, 1.0, 1.0), -0.6);
-            put_line(buf, vec2(-0.6, -0.8), vec2(0.4, -0.3), 0.05, vec4(1.0, 0.0, 1.0, 1.0), -0.7);
-            let h = upload_xyzrgba_mesh(buf, &gl);
+            put_quad(buf, vec2(-1.0, -1.0), vec2(1.0, -1.0), vec2(1.0, 1.0), vec2(-1.0, 1.0), vec4(1.0, 0.0, 0.0, 1.0), vec2(0.0, 0.0), vec2(1.0, 1.0), -0.5);
+            let h = upload_xyzrgbauv_mesh(buf, &gl);
             prog.bind(&gl);
             let mat4_ident = [1.0f32, 0., 0., 0., 0., 1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1. ];
             prog.set_proj(&mat4_ident, &gl);

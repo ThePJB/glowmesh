@@ -1,6 +1,6 @@
 [package]
 name = "glow_mesh"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
 license = "MIT"
 description = "glow triangle drawing abstraction"
@@ -9,7 +9,7 @@ repository = "https://github.com/ThePJB/glowmesh"
 [dependencies]
 glow = "0.11.0"
 minimg = "0.1.2"
-minvect = "0.1.3"
+minvect = "0.1.4"
 png = "0.17.10"
 
 [dev-dependencies]

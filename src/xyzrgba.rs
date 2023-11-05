@@ -2,7 +2,7 @@ use glow::HasContext;
 use minvect::*;
 use std::f32::consts::PI;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 #[repr(C, packed)]
 pub struct XYZRGBA {
     pub xyz: Vec3,
@@ -159,4 +159,10 @@ pub fn put_poly(buf: &mut Vec<XYZRGBA>, c: Vec2, r: f32, n: usize, phase: f32, c
         let p2 = c + r*vec2(theta.cos(), theta.sin());
         put_triangle(buf, c, p1, p2, col, depth);
     }
-} 
+}
+
+pub fn transform_mesh(v: &mut Vec<XYZRGBA>, mat: &[f32; 16]) {
+    for i in 0..v.len() {
+        v[i].xyz = mat4_trans_homog(v[i].xyz, mat);
+    }
+}

@@ -2,7 +2,7 @@ use glow::HasContext;
 use minvect::*;
 use minimg::*;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 #[repr(C, packed)]
 pub struct XYZRGBAUV {
     pub xyz: Vec3,
@@ -170,4 +170,10 @@ pub fn put_rect(buf: &mut Vec<XYZRGBAUV>, r: Rect, r_uv: Rect, col: Vec4, depth:
     let c = r.br();
     let d = r.bl();
     put_quad(buf, a, b, c, d, col, r_uv.tl(), r_uv.br(), depth);
+}
+
+pub fn transform_mesh(v: &mut Vec<XYZRGBAUV>, mat: &[f32; 16]) {
+    for i in 0..v.len() {
+        v[i].xyz = mat4_trans_homog(v[i].xyz, mat);
+    }
 }

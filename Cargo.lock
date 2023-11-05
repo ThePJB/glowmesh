@@ -331,7 +331,7 @@ dependencies = [
 
 [[package]]
 name = "glow_mesh"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "glow",
  "glutin",
@@ -576,9 +576,9 @@ dependencies = [
 
 [[package]]
 name = "minvect"
-version = "0.1.3"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "861d02cf91ace845d326685591436b5455607bebea257c740f9a2b5015f96473"
+checksum = "52036563beaa3470d67838661c8810ca02cbaa60c3e7cae1163d5d50d15cfac2"
 
 [[package]]
 name = "mio"

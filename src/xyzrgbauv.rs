@@ -105,6 +105,14 @@ impl HandleXYZRGBAUV {
         gl.bind_vertex_array(Some(self.vao));
         gl.draw_arrays(glow::TRIANGLES, 0, self.num_verts as i32);
     }
+
+    /// definitely want to call this when dropping the buffer. not impling drop because how to reference opengl context hey?
+    pub fn free(&self, gl: &glow::Context) {
+        unsafe {
+            gl.delete_vertex_array(self.vao);
+            gl.delete_buffer(self.vbo);
+        }
+    }
 }
 
 pub const DEFAULT_FS: &str = r#"#version 330 core
